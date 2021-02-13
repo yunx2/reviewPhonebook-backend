@@ -1,6 +1,10 @@
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 app.use(express.json()) // json body-parser parses request data into javascript and then places parsed data at req.body
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
+morgan.token('content', (req, res) => JSON.stringify(req.body));
 
 const PORT = 3001;
 
