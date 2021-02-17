@@ -14,8 +14,9 @@ morgan.token('content', (req, res) => JSON.stringify(req.body)); // defining :co
 
 const port = process.env.PORT;
 
+const options = { useNewUrlParser: true, useUnifiedTopology: true }
 // connect to database
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_URI, options)
   .then(() => console.log('connected to mongo'))
   .catch(() => console.log('something went wrong'));
 
@@ -47,7 +48,7 @@ app.get('/api/persons/:id', (req, res) => {
     .then(data => { 
       res.json(data);
      });
-})
+});
 
 app.get('/info', (req, res) => {
   const now = new Date();
@@ -58,13 +59,26 @@ app.get('/info', (req, res) => {
     })
 });
 
+app.put('/api/persons/:id', (req, res) => {
+  const id = req.params.id;
+  const { update } = req.body;
+  Person.findByIdAndUpdate(id, update, { new: true })
+    .then(data => res.json(data));
+});
+
 app.delete('/api/persons/:id', (req, res) => { 
   const id = req.params.id; // this id does not need to be parsed into a number. it's mongo id object and mongo can interpret it as is
   Person.deleteOne({ _id: id }) 
     .then(() => {
-      res.sendStatus(204).end();
+      res.sendStatus(204);
     });
-})
+});
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send('error: unknown endpoint');
+}
+
+app.use(unknownEndpoint);
 
 app.listen(port, () => {
   console.log(`listening at port ${port}`);

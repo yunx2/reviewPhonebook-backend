@@ -4,7 +4,7 @@ const personSchema = new mongoose.Schema({
   name: String,
   number: String
 });
-personSchema.set('toJSON', {    
+personSchema.set('toJSON', {  // modify toJSON method of schema to remove the field __v and replace the field _id with id (this toJSON method is called when res.json(...) is used to send data)
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id;
     delete returnedObject._id;
