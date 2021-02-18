@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -18,7 +19,7 @@ const options = { useNewUrlParser: true, useUnifiedTopology: true }
 // connect to database
 mongoose.connect(process.env.MONGO_URI, options)
   .then(() => console.log('connected to mongo'))
-  .catch(() => console.log('something went wrong'));
+  .catch((error) => console.log('something went wrong', error.message));
 
 app.post('/api/persons', (req, res) => {
   const body = req.body;
@@ -47,7 +48,7 @@ app.get('/api/persons/:id', (req, res) => {
   Person.findById(id)
     .then(data => { 
       res.json(data);
-     });
+    });
 });
 
 app.get('/info', (req, res) => {
