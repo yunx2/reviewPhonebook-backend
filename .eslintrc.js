@@ -21,12 +21,10 @@ module.exports = {
       'error',
       'single'
     ],
-    'semi': [
-      0
-    ],
     'object-curly-spacing': [
       'error', 'always'
     ],
-    'no-undef': 0
+    'no-undef': 0,
+    semi: [2, 'always']
   }
-}
+};

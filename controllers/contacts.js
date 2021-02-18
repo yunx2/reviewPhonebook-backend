@@ -3,7 +3,17 @@ const Contact = require('../models/contact');
 
 contactsRouter.get('/', (req, res) => {
   Contact.find({})
-    .then(data => res.json(data));
+    .then(data => res.json( data.sort((first, second) => {
+      const name1 = first.name.toUpperCase(); // ignore upper and lowercase
+      const name2 = second.name.toUpperCase();
+      if (name1 < name2) {
+        return -1;
+      }
+      if (name1 > name2) {
+        return 1;
+      }
+      return 0;
+    })));
 });
 
 contactsRouter.get('/:id', (req, res) => {
@@ -20,18 +30,15 @@ contactsRouter.get('/:id', (req, res) => {
 
 contactsRouter.post('/', (req, res) => {
   const body = req.body;
-  const { name, number } = body;
 
-  if (!name || !number) {
+  if (!body.name || !body.number) {
     res.status(400).send('error: missing content');
   }
-  const newContact = new Person({
-    name,
-    number
-  });
+  const newContact = new Contact({ ...body });
+
   newContact.save()
     .then(data => {
-      res.status(201).json(data)
+      res.status(201).json(data);
     }); // res.sendStatus method sends status code, then automatically ends response (like how res.send sends the response and then ends it); res.status method only sends the status code 
 });
 

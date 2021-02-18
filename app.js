@@ -17,8 +17,8 @@ mongoose.connect(process.env.MONGO_URI, options)
 
 app.use(cors());
 // express.static would go here but i'm not serving static assets right now
-app.use(express.json()) // json body-parser parses request data into javascript and then places parsed data at req.body
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content')) // morgan format string contain custom :content token
+app.use(express.json()); // json body-parser parses request data into javascript and then places parsed data at req.body
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content')); // morgan format string contain custom :content token
 
 morgan.token('content', (req, res) => JSON.stringify(req.body)); // defining :content token
 
