@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 require('dotenv').config();
 const express = require('express');
@@ -6,7 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const personsRouter = require('./controllers/persons');
+const contactsRouter = require('./controllers/contacts');
 const middleware = require('./utils/middleware');
 const app = express();
 
@@ -23,7 +22,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :c
 
 morgan.token('content', (req, res) => JSON.stringify(req.body)); // defining :content token
 
-app.use('/api/persons', personsRouter);
+app.use('/api/contacts', contactsRouter);
 
 app.use(middleware.unknownEndpoint);
 

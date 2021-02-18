@@ -1,14 +1,14 @@
-const personsRouter = require('express').Router();
-const Person = require('../models/person');
+const contactsRouter = require('express').Router();
+const Contact = require('../models/contact');
 
-personsRouter.get('/', (req, res) => {
-  Person.find({})
+contactsRouter.get('/', (req, res) => {
+  Contact.find({})
     .then(data => res.json(data));
 });
 
-personsRouter.get('/:id', (req, res) => {
+contactsRouter.get('/:id', (req, res) => {
   const id = req.params.id;
-  Person.findById(id)
+  Contact.findById(id)
     .then(data => { 
       if (data) {
         res.json(data);
@@ -18,36 +18,36 @@ personsRouter.get('/:id', (req, res) => {
     });
 });
 
-personsRouter.post('/', (req, res) => {
+contactsRouter.post('/', (req, res) => {
   const body = req.body;
   const { name, number } = body;
 
   if (!name || !number) {
     res.status(400).send('error: missing content');
   }
-  const newPerson = new Person({
+  const newContact = new Person({
     name,
     number
   });
-  newPerson.save()
+  newContact.save()
     .then(data => {
       res.status(201).json(data)
     }); // res.sendStatus method sends status code, then automatically ends response (like how res.send sends the response and then ends it); res.status method only sends the status code 
 });
 
-personsRouter.delete('/:id', (req, res) => { 
+contactsRouter.delete('/:id', (req, res) => { 
   const id = req.params.id; // this id does not need to be parsed into a number. it's mongo id object and mongo can interpret it as is
-  Person.deleteOne({ _id: id }) 
+  Contact.deleteOne({ _id: id }) 
     .then(() => {
       res.sendStatus(204);
     });
 });
 
-personsRouter.put('/:id', (req, res) => {
+contactsRouter.put('/:id', (req, res) => {
   const id = req.params.id;
   const { update } = req.body;
-  Person.findByIdAndUpdate(id, update, { new: true })
+  Contact.findByIdAndUpdate(id, update, { new: true }) // { new: true } option needs to be there for findByIdAndUpdate to return updated version of document
     .then(data => res.json(data));
 });
 
-module.exports = personsRouter;
+module.exports = contactsRouter;
