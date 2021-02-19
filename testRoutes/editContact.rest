@@ -1,0 +1,9 @@
+PUT http://localhost:3001/api/contacts/602ee45c9c1308e149e56f33
+content-type: application/json
+
+{
+  "name": "ville valo",
+  "number": "adsgfasdr",
+  "address": "unter der linden strasse",
+  "notes": "aseas"
+}

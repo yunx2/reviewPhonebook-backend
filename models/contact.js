@@ -12,7 +12,7 @@ const contactSchema = new mongoose.Schema({
     minlength: 5
   },
   address: String,
-  comments: String
+  notes: String
 });
 
 contactSchema.set('toJSON', {  // modify toJSON method of schema to remove the field __v and replace the field _id with id (this toJSON method is called when res.json(...) is used to send data)
